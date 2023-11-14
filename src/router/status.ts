@@ -1,10 +1,11 @@
 import express, { Router } from "express";
-import { isAuthenticated, isOwner } from "../middlewares";
-import { createNewStatus } from "../controllers/status";
+import { isAuthenticated, isStatusOwner } from "../middlewares";
+import { createNewStatus, deleteStatus, getAllStatusByOwner, getStatus, updateStatus } from "../controllers/status";
 
 export default (router: express.Router) => {
     router.post('/status', isAuthenticated, createNewStatus);
-    //router.get('/expenses', isAuthenticated, getAllExpenses);
-    //router.delete('/notes/:id', isAuthenticated, isOwner, dele);
-    //router.patch('/notes/:id', isAuthenticated, isOwner, updateNote);
+    router.get('/status', isAuthenticated, getAllStatusByOwner);
+    router.get('/status/:id', isAuthenticated, isStatusOwner, getStatus);
+    router.delete('/status/:id', isAuthenticated, isStatusOwner, deleteStatus);
+    router.patch('/status/:id', isAuthenticated, isStatusOwner, updateStatus);
 }

@@ -2,6 +2,7 @@ import express from 'express'
 import { get, merge } from 'lodash';
 
 import { getUserBySessionToken  } from '../db/users';
+import { getStatusById } from '../db/status';
 
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try{
@@ -43,5 +44,29 @@ export const isOwner = async (req: express.Request, res: express.Response, next:
     } catch (error) {
       console.log(error);
       return res.sendStatus(400);
+    }
+}
+
+export const isStatusOwner = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+
+        const { id } = req.params;
+        const currentUserId = get(req, 'identity._id') as unknown as string;
+    
+        const status = await getStatusById(id)
+
+        if(!status)
+            return res.sendStatus(400);
+
+        if (currentUserId.toString() !== status.owner) {
+            return res.sendStatus(403);
+        }
+
+        req.body.status = status
+
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
     }
 }
