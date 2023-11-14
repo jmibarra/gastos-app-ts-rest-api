@@ -1,11 +1,6 @@
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Document, Schema, Model, Types } from "mongoose";
 
-// Interfaz para el subdocumento "Status"
-interface IStatus {
-    name: string;
-    color: string;
-    icon: string;
-}
+
 
 // Interfaz para el subdocumento "Periodo"
 interface IPeriod {
@@ -25,20 +20,13 @@ interface ICategory {
 interface IExpense extends Document {
     title: string;
     dueDate: Date;
-    status : IStatus;
+    status : Types.ObjectId;
     period : IPeriod;
     category: ICategory;
     amount: number;
     type: string;
     owner: string;
 }
-
-// Definir el esquema para el subdocumento "Status"
-const statusSchema = new Schema<IStatus>({
-    name: { type: String, required: true},
-    color: { type: String},
-    icon: { type: String}
-});
 
 const categorySchema = new Schema<ICategory>({
     name: { type: String, required: true},
@@ -58,7 +46,7 @@ const periodSchema = new Schema<IPeriod>({
 const expenseSchema = new Schema<IExpense>({
     title: { type: String, required: true},
     dueDate: { type: Date },
-    status : statusSchema,
+    status : { type: Schema.Types.ObjectId, ref: 'Status' },
     period : periodSchema,
     category: categorySchema,
     amount: {type: Number},
@@ -73,7 +61,7 @@ export const getExpenseByOwner = (ownerId: string, limit: number, page: number) 
 
     return ExpenseModel.find({
         'owner': ownerId
-    })
+    }).populate('status')
     .skip(skipCount) // Omitir los documentos según el cálculo anterior
     .limit(limit); // Limitar la cantidad de documentos devueltos por página
 };
