@@ -10,29 +10,16 @@ interface IPeriod {
     current: boolean;
 }
 
-// Interfaz para el subdocumento "Categoria"
-interface ICategory {
-    name: string;
-    color: string;
-    icon: string;
-}
-
 interface IExpense extends Document {
     title: string;
     dueDate: Date;
     status : Types.ObjectId;
     period : IPeriod;
-    category: ICategory;
+    category: Types.ObjectId;
     amount: number;
     type: string;
     owner: string;
 }
-
-const categorySchema = new Schema<ICategory>({
-    name: { type: String, required: true},
-    color: { type: String},
-    icon: { type: String}
-});
 
 // Definir el esquema para el subdocumento "Periodo"
 const periodSchema = new Schema<IPeriod>({
@@ -48,7 +35,7 @@ const expenseSchema = new Schema<IExpense>({
     dueDate: { type: Date },
     status : { type: Schema.Types.ObjectId, ref: 'Status' },
     period : periodSchema,
-    category: categorySchema,
+    category: { type: Schema.Types.ObjectId, ref: 'Category' },
     amount: {type: Number},
     type: { type: String},
     owner: { type: String, required: true}
@@ -62,6 +49,7 @@ export const getExpenseByOwner = (ownerId: string, limit: number, page: number) 
     return ExpenseModel.find({
         'owner': ownerId
     }).populate('status')
+    .populate('category')
     .skip(skipCount) // Omitir los documentos según el cálculo anterior
     .limit(limit); // Limitar la cantidad de documentos devueltos por página
 };
