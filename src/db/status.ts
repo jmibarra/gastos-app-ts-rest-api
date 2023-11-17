@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 // Interfaz para el subdocumento "Status"
 interface IStatus {
