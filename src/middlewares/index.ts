@@ -4,6 +4,7 @@ import { get, merge } from 'lodash';
 import { getUserBySessionToken  } from '../db/users';
 import { getStatusById } from '../db/status';
 import { getCategoryById } from '../db/category';
+import { getExpenseById } from '../db/expense';
 
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try{
@@ -88,6 +89,30 @@ export const isCategoryOwner = async (req: express.Request, res: express.Respons
         }
 
         req.body.category = category
+
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+}
+
+export const isExpenseOwner = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+
+        const { id } = req.params;
+        const currentUserId = get(req, 'identity._id') as unknown as string;
+    
+        const expense = await getExpenseById(id)
+
+        if(!expense)
+            return res.sendStatus(400);
+
+        if (currentUserId.toString() !== expense.owner) {
+            return res.sendStatus(403);
+        }
+
+        req.body.expense = expense
 
         next();
     } catch (error) {

@@ -1,10 +1,11 @@
 import express, { Router } from "express";
-import { isAuthenticated, isOwner } from "../middlewares";
-import { createNewExpense, getAllExpenses } from "../controllers/expenses"
+import { isAuthenticated,isExpenseOwner } from "../middlewares";
+import { createNewExpense, getAllPeriodExpenses, deleteExpense, updateExpense, getExpense } from "../controllers/expenses"
 
 export default (router: express.Router) => {
     router.post('/expenses', isAuthenticated, createNewExpense);
-    router.get('/expenses', isAuthenticated, getAllExpenses);
-    //router.delete('/notes/:id', isAuthenticated, isOwner, dele);
-    //router.patch('/notes/:id', isAuthenticated, isOwner, updateNote);
+    router.get('/expenses/all/:period', isAuthenticated, getAllPeriodExpenses);
+    router.get('/expenses/:id', isAuthenticated,isExpenseOwner, getExpense);
+    router.delete('/expenses/:id', isAuthenticated, isExpenseOwner, deleteExpense);
+    router.patch('/expenses/:id', isAuthenticated, isExpenseOwner, updateExpense);
 }
