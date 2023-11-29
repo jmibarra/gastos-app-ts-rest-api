@@ -109,7 +109,7 @@ export const isExpenseOwner = async (req: express.Request, res: express.Response
         if(!expense)
             return res.sendStatus(400);
 
-        if (currentUserId.toString() !== expense.owner) {
+        if (currentUserId.toString() !== expense.owner._id.toString()) {
             return res.sendStatus(403);
         }
 

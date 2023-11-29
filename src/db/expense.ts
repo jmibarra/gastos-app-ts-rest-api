@@ -8,7 +8,7 @@ interface IExpense extends Document {
     category: Types.ObjectId;
     amount: number;
     type: string;
-    owner: string;
+    owner: Types.ObjectId;
 }
 
 // Definir el esquema principal con los subdocumentos "Status" y "Periodo"
@@ -20,7 +20,11 @@ const expenseSchema = new Schema<IExpense>({
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     amount: {type: Number, required: true},
     type: { type: String},
-    owner: { type: String, required: true} //TODO: si anda bien en income probar que el user sea un objeto que ya existe
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 });
 
 export const ExpenseModel = mongoose.model('Expense', expenseSchema);
@@ -33,6 +37,7 @@ export const getExpenseByPeriod = (ownerId: string, period: string, limit: numbe
         'period': period,
     }).populate('status')
     .populate('category')
+    .populate('owner')
     .skip(skipCount) // Omitir los documentos según el cálculo anterior
     .limit(limit); // Limitar la cantidad de documentos devueltos por página
 };
@@ -43,6 +48,6 @@ export const getExpensesCountByPeriod = (ownerId: string, period: string) => {
     });
 };
 
-export const getExpenseById = (id: string) => ExpenseModel.findById(id);
+export const getExpenseById = (id: string) => ExpenseModel.findById(id).populate('status').populate('category').populate('owner');
 export const createExpense = (values: Record<string, any>) => new ExpenseModel(values).save().then((expense) => expense.toObject());
 export const deleteExpenseById = (id: String) => ExpenseModel.findOneAndDelete({_id: id});
