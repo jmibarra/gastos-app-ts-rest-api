@@ -5,6 +5,7 @@ import { getUserBySessionToken  } from '../db/users';
 import { getStatusById } from '../db/status';
 import { getCategoryById } from '../db/category';
 import { getExpenseById } from '../db/expense';
+import { getIncomeById } from '../db';
 
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try{
@@ -113,6 +114,30 @@ export const isExpenseOwner = async (req: express.Request, res: express.Response
         }
 
         req.body.expense = expense
+
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+}
+
+export const isIncomeOwner = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+
+        const { id } = req.params;
+        const currentUserId = get(req, 'identity._id') as unknown as string;
+    
+        const income = await getIncomeById(id)
+
+        if(!income)
+            return res.sendStatus(400);
+
+        if (currentUserId.toString() !== income.owner._id.toString()) {
+            return res.sendStatus(403);
+        }
+
+        req.body.income = income
 
         next();
     } catch (error) {

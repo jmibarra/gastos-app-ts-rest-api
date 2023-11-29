@@ -48,6 +48,7 @@ export const getAllPeriodExpenses = async (req: express.Request, res: express.Re
             count: totalCount
         }
         
+        console.log(responseData)
         return res.status(200).json(responseData);
 
     } catch (error) {

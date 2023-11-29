@@ -20,8 +20,8 @@ const expenseSchema = new Schema<IExpense>({
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
     amount: {type: Number, required: true},
     type: { type: String},
-    owner: { type: String, required: true}
-  });
+    owner: { type: String, required: true} //TODO: si anda bien en income probar que el user sea un objeto que ya existe
+});
 
 export const ExpenseModel = mongoose.model('Expense', expenseSchema);
 
@@ -44,5 +44,5 @@ export const getExpensesCountByPeriod = (ownerId: string, period: string) => {
 };
 
 export const getExpenseById = (id: string) => ExpenseModel.findById(id);
-export const createExpense = (values: Record<string, any>) => new ExpenseModel(values).save().then((note) => note.toObject());
+export const createExpense = (values: Record<string, any>) => new ExpenseModel(values).save().then((expense) => expense.toObject());
 export const deleteExpenseById = (id: String) => ExpenseModel.findOneAndDelete({_id: id});

@@ -38,9 +38,9 @@ export const login = async (req: express.Request, res: express.Response) => {
 
 export const register =async (req:express.Request, res: express.Response) => {
     try{
-        const {email, password, username } = req.body;
+        const {email, password, username, fullName, avatarUrl } = req.body;
 
-        if(!email || !password || !username)
+        if(!email || !password || !username || !fullName)
             return res.sendStatus(400)
 
         const existinUser = await getUserByEmail(email);
@@ -52,6 +52,8 @@ export const register =async (req:express.Request, res: express.Response) => {
         const user = await createUser({
             email,
             username,
+            fullName,
+            avatarUrl: avatarUrl ? avatarUrl :'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
             authentication: {
                 salt,
                 password: authentication(salt,password)
