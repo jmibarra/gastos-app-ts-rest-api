@@ -10,9 +10,8 @@ import { getIncomeById } from '../db';
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try{
         
-        const sessionToken = req.cookies['PROD-APP-AUTH'];
-
-        console.log(sessionToken)
+        const sessionToken = req.headers.authorization;//Fix provisorio para usar por axios y no usar mas cookies
+        
         if(!sessionToken)
             return res.sendStatus(403);
 

@@ -88,7 +88,7 @@ export const updateExpense = async (req: express.Request, res: express.Response)
     try {
         const { title, dueDate, status, period, category, amount, type } = req.body;
   
-        if (!title || !period || !status || !amount)
+        if (!title)
             return res.sendStatus(400);
   
         const expense = req.body.expense
