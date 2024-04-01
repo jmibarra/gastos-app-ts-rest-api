@@ -64,5 +64,5 @@ export const getIncomesCountByPeriod = (ownerId: string, period: string) => {
 };
 
 export const getIncomeById = (id: string) => IncomeModel.findById(id).populate('status').populate('owner');
-export const createIncome = (values: Record<string, any>) => new IncomeModel(values).save().then((income) => income.toObject());
+export const createIncome = (values: Record<string, any>) => new IncomeModel(values).save().then((income) => {return IncomeModel.populate(income, { path: 'status' })}).then((populatedIncome) => populatedIncome.toObject());
 export const deleteIncomeById = (id: String) => IncomeModel.findOneAndDelete({_id: id});
