@@ -49,5 +49,14 @@ export const getExpensesCountByPeriod = (ownerId: string, period: string) => {
 };
 
 export const getExpenseById = (id: string) => ExpenseModel.findById(id).populate('status').populate('category').populate('owner');
-export const createExpense = (values: Record<string, any>) => new ExpenseModel(values).save().then((expense) => expense.toObject());
+export const createExpense = (values: Record<string, any>) => {
+    return new ExpenseModel(values)
+        .save()
+        .then((expense) => {
+            // Poblar los campos status y category
+            return ExpenseModel.populate(expense, { path: 'status category' });
+        })
+        .then((populatedExpense) => populatedExpense.toObject());
+};
+
 export const deleteExpenseById = (id: String) => ExpenseModel.findOneAndDelete({_id: id});
