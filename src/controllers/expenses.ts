@@ -1,6 +1,6 @@
 import express from 'express';
 import { get } from 'lodash';
-import { createExpense, deleteExpenseById, getExpenseByPeriod, getExpensesCountByPeriod } from '../db/expense';
+import { ExpenseModel, createExpense, deleteExpenseById, getExpenseByPeriod, getExpensesCountByPeriod } from '../db/expense';
 
 export const createNewExpense = async (req: express.Request, res: express.Response) => {
     try{
@@ -101,7 +101,9 @@ export const updateExpense = async (req: express.Request, res: express.Response)
             expense.category = category ? category : expense.category;
             expense.amount = amount ? amount : expense.amount;
             expense.type = type ? type : expense.type;
-            await expense.save();
+            await expense.save().then((expense: any) => {
+                return ExpenseModel.populate(expense, { path: 'status category' });
+            }).then((populatedExpense: any) => populatedExpense.toObject());;
         }else
             return res.sendStatus(404);
       
