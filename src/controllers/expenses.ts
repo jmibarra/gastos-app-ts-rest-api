@@ -103,7 +103,7 @@ export const updateExpense = async (req: express.Request, res: express.Response)
             expense.type = type ? type : expense.type;
             await expense.save().then((expense: any) => {
                 return ExpenseModel.populate(expense, { path: 'status category' });
-            }).then((populatedExpense: any) => populatedExpense.toObject());;
+            }).then((populatedExpense: any) => populatedExpense.toObject());
         }else
             return res.sendStatus(404);
       

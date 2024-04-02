@@ -1,4 +1,4 @@
-import { createIncome, deleteIncomeById, getIncomesByPeriod, getIncomesCountByPeriod } from '../db/income';
+import { IncomeModel, createIncome, deleteIncomeById, getIncomesByPeriod, getIncomesCountByPeriod } from '../db/income';
 import express from 'express';
 import { get } from 'lodash';
 
@@ -99,7 +99,9 @@ export const updateIncome = async (req: express.Request, res: express.Response) 
             income.period = period ? period : income.period;
             income.amount = amount ? amount : income.amount;
             income.type = type ? type : income.type;
-            await income.save();
+            await income.save().then((income: any) => {
+                return IncomeModel.populate(income, { path: 'status' });
+            }).then((populatedIncome: any) => populatedIncome.toObject());
         }else
             return res.sendStatus(404);
       
