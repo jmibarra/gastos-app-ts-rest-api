@@ -35,10 +35,10 @@ export const getAllCategoriesByOwner = async (req: express.Request, res: express
         const page = parseInt(req.query.page as string) ?? 1;
 
         const totalCount = await getCategoriesCountByOwner(owner); // Obtener el recuento total de documentos
-        const statuses = await getCategoriesByOwner(owner, limit, page);
+        const categories = await getCategoriesByOwner(owner, limit, page);
 
         const responseData = {
-            statuses: statuses,
+            categories: categories,
             count: totalCount
         }
         
