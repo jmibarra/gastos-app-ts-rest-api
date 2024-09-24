@@ -94,7 +94,7 @@ export const updateIncome = async (req: express.Request, res: express.Response) 
 
         if(income){
             income.title = title ? title : income.title;
-            income.dueDate = date ? date : income.dueDate;
+            income.date = date ? date : income.date;
             income.status = status ? status : income.status;
             income.period = period ? period : income.period;
             income.amount = amount ? amount : income.amount;
