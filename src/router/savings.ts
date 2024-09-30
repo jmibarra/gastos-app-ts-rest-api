@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { isAuthenticated,isIncomeOwner } from "../middlewares";
-import { createNewSaving, deleteSaving, getAllPeriodSavings, getAllSavings, getSaving, updateSaving } from "controllers/savings";
+import { createNewSaving, deleteSaving, getAllPeriodSavings, getAllSavings, getSaving, updateSaving } from "../controllers/savings";
 
 
 export default (router: express.Router) => {

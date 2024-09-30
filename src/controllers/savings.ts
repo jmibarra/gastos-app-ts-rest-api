@@ -1,4 +1,4 @@
-import { createSaving, deleteSavingById, getSavings, getSavingsByPeriod, getSavingsCount, getSavingsCountByPeriod, SavingModel } from 'db/savings';
+import { createSaving, deleteSavingById, getSavings, getSavingsByPeriod, getSavingsCount, getSavingsCountByPeriod, SavingModel } from '../db/savings';
 import express from 'express';
 import { get } from 'lodash';
 
