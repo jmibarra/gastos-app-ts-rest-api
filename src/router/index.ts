@@ -6,6 +6,7 @@ import expenses from './expenses';
 import status from './status';
 import category from './category';
 import incomes from './incomes'
+import savings from './savings';
 
 const router = express.Router();
 
@@ -15,7 +16,8 @@ export default (): express.Router => {
     expenses(router);
     status(router);
     category(router);
-    incomes(router)
+    incomes(router);
+    savings(router);
 
     
     return router;

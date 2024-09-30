@@ -55,6 +55,22 @@ export const getSavingsCountByPeriod = (ownerId: string, period: string) => {
     });
 };
 
+export const getSavings = (ownerId: string, limit: number, page: number) => {
+    const skipCount = (page - 1) * limit;
+
+    return SavingModel.find({
+        'owner': ownerId
+    }).populate('owner')
+    .skip(skipCount)
+    .limit(limit);
+}
+
+export const getSavingsCount = (ownerId: string) => {
+    return SavingModel.countDocuments({
+        'owner': ownerId
+    });
+}
+
 export const getSavingById = (id: string) => SavingModel.findById(id).populate('owner');
 export const createSaving = (values: Record<string, any>) => new SavingModel(values).save().then((saving) => {return SavingModel.populate(saving, { path: 'owner' })}).then((populatedIncome) => populatedIncome.toObject());
 export const deleteSavingById = (id: String) => SavingModel.findOneAndDelete({_id: id});
