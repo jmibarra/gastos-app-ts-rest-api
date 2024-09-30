@@ -41,10 +41,31 @@ export const getExpenseByPeriod = (ownerId: string, period: string, limit: numbe
     .skip(skipCount) // Omitir los documentos según el cálculo anterior
     .limit(limit); // Limitar la cantidad de documentos devueltos por página
 };
+
 export const getExpensesCountByPeriod = (ownerId: string, period: string) => {
     return ExpenseModel.countDocuments({
         'owner': ownerId,
         'period': period,
+    });
+};
+
+export const getExpensesByCategory = (ownerId: string, category: string, limit: number, page: number) => {
+    const skipCount = (page - 1) * limit; // Calcular la cantidad de documentos que se deben omitir para la paginación
+
+    return ExpenseModel.find({
+        'owner': ownerId,
+        'category': category
+    }).populate('status')
+    .populate('category')
+    .populate('owner')
+    .skip(skipCount) // Omitir los documentos según el cálculo anterior
+    .limit(limit); // Limitar la cantidad de documentos devueltos por página
+}
+
+export const getExpensesCountByCategory = (ownerId: string, category: string) => {
+    return ExpenseModel.countDocuments({
+        'owner': ownerId,
+        'category': category
     });
 };
 

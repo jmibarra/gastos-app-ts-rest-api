@@ -1,6 +1,6 @@
 import express from 'express';
 import { get } from 'lodash';
-import { ExpenseModel, createExpense, deleteExpenseById, getExpenseByPeriod, getExpensesCountByPeriod } from '../db/expense';
+import { ExpenseModel, createExpense, deleteExpenseById, getExpenseByPeriod, getExpensesByCategory, getExpensesCountByCategory, getExpensesCountByPeriod } from '../db/expense';
 
 export const createNewExpense = async (req: express.Request, res: express.Response) => {
     try{
@@ -57,6 +57,34 @@ export const getAllPeriodExpenses = async (req: express.Request, res: express.Re
     }
 };
 
+export const getAllExpensesByCategory = async (req: express.Request, res: express.Response) => {
+    try {
+
+        const owner = get(req, 'identity._id') as unknown as string;
+
+        const { category } = req.params;
+
+        const limit = parseInt(req.query.limit as string) ?? 10;
+        const page = parseInt(req.query.page as string) ?? 1;
+
+        const totalCount = await getExpensesCountByCategory(owner,category); // Obtener el recuento total de documentos
+        const expenses = await getExpensesByCategory(owner,category, limit, page);
+
+        const responseData = {
+            expenses: expenses,
+            count: totalCount
+        }
+        
+        console.log(responseData)
+        return res.status(200).json(responseData);
+
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+
+}
+
 export const getExpense = async (req: express.Request, res: express.Response) => {
     try {
 
@@ -101,6 +129,7 @@ export const updateExpense = async (req: express.Request, res: express.Response)
             expense.category = category ? category : expense.category;
             expense.amount = amount ? amount : expense.amount;
             expense.type = type ? type : expense.type;
+            console.log(expense)
             await expense.save().then((expense: any) => {
                 return ExpenseModel.populate(expense, { path: 'status category' });
             }).then((populatedExpense: any) => populatedExpense.toObject());
