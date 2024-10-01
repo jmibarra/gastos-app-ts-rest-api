@@ -96,9 +96,9 @@ export const deleteSaving = async (req: express.Request, res: express.Response) 
     try {
         
         const { id } = req.params;
-        const deletedIncome = await deleteSavingById(id);
+        const deletedSaving = await deleteSavingById(id);
   
-        return res.json(deletedIncome);
+        return res.json(deletedSaving);
     
     } catch (error) {
         console.log(error);
@@ -109,11 +109,15 @@ export const deleteSaving = async (req: express.Request, res: express.Response) 
 export const updateSaving = async (req: express.Request, res: express.Response) => {
     try {
         const { period, description, amount, date, type } = req.body;
+
+        console.log("Gola")
   
         if (!period || !type || !amount)
             return res.sendStatus(400);
   
-        const saving = req.body.income
+        const saving = req.body.saving
+
+        console.log(saving)
 
         if(saving){
             saving.description = description ? description : saving.description;
@@ -122,8 +126,8 @@ export const updateSaving = async (req: express.Request, res: express.Response) 
             saving.amount = amount ? amount : saving.amount;
             saving.type = type ? type : saving.type;
             await saving.save().then((saving: any) => {
-                return SavingModel.populate(saving, { path: 'status' });
-            }).then((populatedIncome: any) => populatedIncome.toObject());
+                return SavingModel.populate(saving, { path: 'owner' });
+            }).then((populateSaving: any) => populateSaving.toObject());
         }else
             return res.sendStatus(404);
       
