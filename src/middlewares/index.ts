@@ -2,6 +2,7 @@ import express from 'express'
 import { get, merge } from 'lodash';
 
 import { getUserBySessionToken, getStatusById, getCategoryById ,getExpenseById, getSavingById, getIncomeById } from '../db';
+import { getInvestmentsById } from 'db/investment';
 
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try{
@@ -157,6 +158,30 @@ export const isSavingOwner = async (req: express.Request, res: express.Response,
         }
 
         req.body.saving = saving
+
+        next();
+    } catch (error) {
+        console.log(error);
+        return res.sendStatus(400);
+    }
+}
+
+export const isInvestmentOwner = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    try {
+
+        const { id } = req.params;
+        const currentUserId = get(req, 'identity._id') as unknown as string;
+    
+        const investment = await getInvestmentsById(id)
+
+        if(!investment)
+            return res.sendStatus(400);
+
+        if (currentUserId.toString() !== investment.owner._id.toString()) {
+            return res.sendStatus(403);
+        }
+
+        req.body.investment = investment
 
         next();
     } catch (error) {
