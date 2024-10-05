@@ -4,6 +4,15 @@ import { get, merge } from 'lodash';
 import { getUserBySessionToken, getStatusById, getCategoryById ,getExpenseById, getSavingById, getIncomeById } from '../db';
 import { getInvestmentsById } from 'db/investment';
 
+/**
+ * Checks if the user is authenticated by verifying the session token
+ * present in the Authorization header. If the token is invalid or missing,
+ * it sends a 403 response. If the token is valid, it adds the user to the
+ * request object and calls the next middleware function.
+ * @param req - express request object
+ * @param res - express response object
+ * @param next - express next function
+ */
 export const isAuthenticated = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try{
         
@@ -26,6 +35,14 @@ export const isAuthenticated = async (req: express.Request, res: express.Respons
     }
 }
 
+/**
+ * Middleware that checks if the user making the request is the owner of the
+ * resource with the given id. If the user is not the owner, it sends a 403
+ * response. If the user is the owner, it calls the next middleware function.
+ * @param req - express request object
+ * @param res - express response object
+ * @param next - express next function
+ */
 export const isOwner = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
       const { id } = req.params;

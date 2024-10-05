@@ -45,7 +45,6 @@ export const getAllPeriodSavings = async (req: express.Request, res: express.Res
             count: totalCount
         }
         
-        console.log(responseData)
         return res.status(200).json(responseData);
 
     } catch (error) {
@@ -109,8 +108,6 @@ export const deleteSaving = async (req: express.Request, res: express.Response) 
 export const updateSaving = async (req: express.Request, res: express.Response) => {
     try {
         const { period, description, amount, date, type } = req.body;
-
-        console.log("Gola")
   
         if (!period || !type || !amount)
             return res.sendStatus(400);

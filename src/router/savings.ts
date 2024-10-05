@@ -1,7 +1,6 @@
 import express, { Router } from "express";
 import { isAuthenticated, isSavingOwner } from "../middlewares";
 import { createNewSaving, deleteSaving, getAllPeriodSavings, getAllSavings, getSaving, updateSaving } from "../controllers/savings";
-import { get } from "lodash";
 
 
 export default (router: express.Router) => {
