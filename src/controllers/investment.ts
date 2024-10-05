@@ -1,4 +1,4 @@
-import { createInvestment, deleteInvestmentById, getInvestments, getInvestmentsCount, InvestmentModel } from 'db/investment';
+import { createInvestment, deleteInvestmentById, getInvestments, getInvestmentsCount, InvestmentModel } from '../db';
 import express from 'express';
 import { get } from 'lodash';
 

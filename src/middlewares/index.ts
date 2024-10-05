@@ -1,8 +1,7 @@
 import express from 'express'
 import { get, merge } from 'lodash';
 
-import { getUserBySessionToken, getStatusById, getCategoryById ,getExpenseById, getSavingById, getIncomeById } from '../db';
-import { getInvestmentsById } from 'db/investment';
+import { getUserBySessionToken, getStatusById, getCategoryById ,getExpenseById, getSavingById, getIncomeById,getInvestmentsById } from '../db';
 
 /**
  * Checks if the user is authenticated by verifying the session token

@@ -1,9 +1,8 @@
-import express, { Router } from "express";
+import { Router } from "express";
 import { isAuthenticated, isInvestmentOwner } from "../middlewares";
-import { createNewInvestment, deleteInvestment, getAllInvestments, updateInvestment } from "controllers/investment";
+import { createNewInvestment, deleteInvestment, getAllInvestments, updateInvestment } from "../controllers";
 
-
-export default (router: express.Router) => {
+export default (router: Router) => {
     router.get('/investments', isAuthenticated, getAllInvestments);
     router.post('/investments', isAuthenticated, createNewInvestment);
     router.patch('/investments/:id', isAuthenticated, isInvestmentOwner, updateInvestment);
