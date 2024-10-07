@@ -11,7 +11,7 @@ import { get } from 'lodash';
  */
 export const createNewInvestment = async (req: express.Request, res: express.Response) => {
     try{
-        const { name,averagePurchasePrice, quantity, type } = req.body
+        const { name,ticker,averagePurchasePrice, quantity, type } = req.body
         
         if (!name || !type)
             return res.sendStatus(400);
@@ -20,6 +20,7 @@ export const createNewInvestment = async (req: express.Request, res: express.Res
 
         const investment = await createInvestment({
             name,
+            ticker,
             averagePurchasePrice,
             quantity,
             type,
