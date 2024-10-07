@@ -2,6 +2,7 @@ import mongoose, { Schema, Types } from "mongoose";
 
 interface IInvestment {
     name: string;
+    ticker: string;
     averagePurchasePrice: number;
     quantity: number;
     type: string;
@@ -10,6 +11,7 @@ interface IInvestment {
 
 const InvestmentSchema = new mongoose.Schema<IInvestment>({
     name: { type: String, required: true},
+    ticker: { type: String},
     averagePurchasePrice: { type: Number },
     quantity: { type: Number },
     type: { type: String, required: true},

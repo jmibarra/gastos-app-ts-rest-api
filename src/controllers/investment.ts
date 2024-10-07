@@ -110,7 +110,7 @@ export const deleteInvestment = async (req: express.Request, res: express.Respon
  */
 export const updateInvestment = async (req: express.Request, res: express.Response) => {
     try {
-        const { name,averagePurchasePrice, quantity, type } = req.body
+        const { name, ticker, averagePurchasePrice, quantity, type } = req.body
 
         if (!name || !type)
             return res.sendStatus(400);
@@ -119,6 +119,7 @@ export const updateInvestment = async (req: express.Request, res: express.Respon
 
         if(investment){
             investment.name = name ? name : investment.name;
+            investment.ticker = ticker ? ticker : investment.ticker;
             investment.averagePurchasePrice = averagePurchasePrice ? averagePurchasePrice : investment.averagePurchasePrice;
             investment.quantity = quantity ? quantity : investment.quantity;
             investment.type = type ? type : investment.type;
