@@ -4,6 +4,7 @@ interface IInvestment {
     name: string;
     ticker: string;
     averagePurchasePrice: number;
+    currentPrice: number;
     quantity: number;
     type: string;
     owner: Types.ObjectId;
@@ -13,6 +14,7 @@ const InvestmentSchema = new mongoose.Schema<IInvestment>({
     name: { type: String, required: true},
     ticker: { type: String},
     averagePurchasePrice: { type: Number },
+    currentPrice: { type: Number },
     quantity: { type: Number },
     type: { type: String, required: true},
     owner: { type: Schema.Types.ObjectId, ref: 'User', required: true}

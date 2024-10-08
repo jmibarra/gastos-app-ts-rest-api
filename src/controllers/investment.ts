@@ -11,7 +11,7 @@ import { get } from 'lodash';
  */
 export const createNewInvestment = async (req: express.Request, res: express.Response) => {
     try{
-        const { name,ticker,averagePurchasePrice, quantity, type } = req.body
+        const { name, ticker, averagePurchasePrice, currentPrice, quantity, type } = req.body
         
         if (!name || !type)
             return res.sendStatus(400);
@@ -22,6 +22,7 @@ export const createNewInvestment = async (req: express.Request, res: express.Res
             name,
             ticker,
             averagePurchasePrice,
+            currentPrice,
             quantity,
             type,
             owner
@@ -111,7 +112,7 @@ export const deleteInvestment = async (req: express.Request, res: express.Respon
  */
 export const updateInvestment = async (req: express.Request, res: express.Response) => {
     try {
-        const { name, ticker, averagePurchasePrice, quantity, type } = req.body
+        const { name, ticker, averagePurchasePrice, currentPrice, quantity, type } = req.body
 
         if (!name || !type)
             return res.sendStatus(400);
@@ -122,6 +123,7 @@ export const updateInvestment = async (req: express.Request, res: express.Respon
             investment.name = name ? name : investment.name;
             investment.ticker = ticker ? ticker : investment.ticker;
             investment.averagePurchasePrice = averagePurchasePrice ? averagePurchasePrice : investment.averagePurchasePrice;
+            investment.currentPrice = currentPrice ? currentPrice : investment.currentPrice;
             investment.quantity = quantity ? quantity : investment.quantity;
             investment.type = type ? type : investment.type;
             await investment.save().then((saving: any) => {
