@@ -1,4 +1,4 @@
-# gastos-app-ts-rest-api
+# 🇪🇸 gastos-app-ts-rest-api
 
 Para iniciar ejecuta `npm run start`
 
@@ -11,7 +11,7 @@ export const properties = {
 };
 ```
 
-🇺🇸
+# 🇺🇸 gastos-app-ts-rest-api
 
 To start, run `npm run start`
 
