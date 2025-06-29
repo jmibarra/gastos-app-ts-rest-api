@@ -1,0 +1,33 @@
+# Ignorar la carpeta de módulos de Node
+node_modules/
+
+# Ignorar la carpeta de build de Next.js
+.next/
+
+# Ignorar la carpeta de build de TypeScript (si la tienes, por ejemplo, `dist` o `build`)
+dist/
+build/
+
+# Ignorar variables de entorno (¡CRÍTICO para seguridad!)
+.env
+.env.local
+.env.development.local
+.env.production.local
+
+# Ignorar archivos de registro (logs)
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignorar archivos de sistema operativo
+.DS_Store # macOS
+Thumbs.db # Windows
+
+# Ignorar archivos de caché
+.parcel-cache/ # Si usas Parcel
+.eslintcache # Caché de ESLint
+.DS_Store
+
+#Ignorar properties con datos como token de MDB
+properties.ts
